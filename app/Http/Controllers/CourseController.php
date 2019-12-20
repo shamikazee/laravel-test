@@ -13,7 +13,7 @@ class CourseController extends Controller
      */
     public function index()
     {
-        $course=Course::all();
+        $course=Course::paginate(10);
         return $course;
     }
 
