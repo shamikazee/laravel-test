@@ -78,8 +78,10 @@ class CourseController extends Controller
     public function destroy($id)
     {
         $course=Course::find($id);
+        $image = $course->image;
         if($course->delete())
         {
+            $image->delete();
             return 'Category deleted';
         }
     }
