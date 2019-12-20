@@ -13,7 +13,8 @@ class CourseController extends Controller
      */
     public function index()
     {
-        //
+        $course=Course::all();
+        return $course;
     }
 
     /**
@@ -41,19 +42,11 @@ class CourseController extends Controller
      */
     public function show($id)
     {
-        //
+        $course=Course::find($id);
+        return $course;
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
+   
 
     /**
      * Update the specified resource in storage.
@@ -64,7 +57,16 @@ class CourseController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $course=Course::find($id);
+        $course->categoty_id=$request->input('categoty_id');
+        $course->name=$request->input('name');
+        $course->slug=$request->input('slug');
+        $course->description=$request->input('description');
+        if($course->save())
+        {
+            return 'course updated';
+        }
+
     }
 
     /**
@@ -75,6 +77,10 @@ class CourseController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $course=Course::find($id);
+        if($course->delete())
+        {
+            return 'Category deleted';
+        }
     }
 }

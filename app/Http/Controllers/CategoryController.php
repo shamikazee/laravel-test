@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Category;
 use Illuminate\Http\Request;
 
+
 class CategoryController extends Controller
 {
     /**
@@ -13,7 +14,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        $category=Category::all();
+        return $category;
     }
 
     /**
@@ -41,19 +43,11 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
-        //
+        $category=Category::find($id);
+        return $category;
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
+   
 
     /**
      * Update the specified resource in storage.
@@ -64,7 +58,13 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $category=Category::find($id);
+        $category->name=$request->input('name');
+        $category->slug=$request->input('slug');
+        if($category->save())
+        {
+            return 'Category updated';
+        }
     }
 
     /**
@@ -75,6 +75,12 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $category=Category::find($id);
+        if($category->delete())
+        {
+            return 'Category deleted';
+        }
+        
+
     }
 }

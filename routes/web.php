@@ -15,6 +15,3 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::post('category/create','CategoryController@create');
-//Route::resource('category', 'CategoryController');
-

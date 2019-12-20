@@ -20,5 +20,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 //Route::post('category/create','CategoryController@create');
 Route::resource('category', 'CategoryController');
 Route::resource('course', 'CourseController');
+Route::post('image','ImageController@create');
 
 
