@@ -21,6 +21,8 @@ class VerifyCsrfToken extends Middleware
     protected $except = [
         '/upload',
         '/categories/*',
-        '/courses/*'
+        '/categories',
+        '/courses/*',
+        '/courses'
     ];
 }

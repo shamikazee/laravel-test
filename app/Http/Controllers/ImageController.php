@@ -26,12 +26,12 @@ class ImageController extends Controller
         $file =$request->file('image');
         $random = Str::random(20);
         $filename = 'images/'.$random.'.'.$file->getClientOriginalExtension();
-        Storage::disk('public')->put($filename, file_get_contents($file), 'public');
         $image->file_name=$filename;
-        $image->imageable_id=$request->input('id');
-        $image->imageable_type=$request->input('type');
+        $image->imageable_id=3;
+        $image->imageable_type='categories';
         if($image->save())
         {
+            Storage::disk('public')->put($filename, file_get_contents($file), 'public');
             (array)$image;
             $image['url']='http://localhost:8000/storage/'.$image['file_name'];
             return response()->json([

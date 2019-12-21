@@ -79,8 +79,8 @@ class CategoryController extends Controller
         {
             return response()->json([
                 'status' => __('response.status'),
-                'message' => 'Categories '.__('response.message.create'),
-                'categorie' =>$category
+                'message' => 'Category '.__('response.message.create'),
+                'category' =>$category
                 ]);
         }
     }
@@ -98,7 +98,7 @@ class CategoryController extends Controller
         $category=Category::where('slug',$slug)->first();
         return response()->json([
             'status' => __('response.status'),
-            'message' => 'Categories '.__('response.message.show'),
+            'message' => 'Category '.__('response.message.show'),
             'category' =>$category
             ]);
     }
@@ -120,7 +120,7 @@ class CategoryController extends Controller
         {
             $category->name=$request->input('name');
         }
-        elseif ($request->has(['slug']))
+        if ($request->has(['slug']))
         {
             $category->slug=$request->input('slug');
         }
@@ -128,7 +128,7 @@ class CategoryController extends Controller
         {
             return response()->json([
                 'status' => __('response.status'),
-                'message' => 'Categories '.__('response.message.update'),
+                'message' => 'Category '.__('response.message.update'),
                 'category' =>$category
                 ]);
         }
@@ -158,7 +158,7 @@ class CategoryController extends Controller
             }
             return response()->json([
                 'status' => __('response.status'),
-                'message' => 'Categories '.__('response.message.delete'),
+                'message' => 'Category '.__('response.message.delete'),
                 ]);
         }
     }

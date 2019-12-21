@@ -8,7 +8,7 @@ use App;
 
 class CourseController extends Controller
 {
-    public $local='fr';
+    public $local='en';
     /**
      * Display a listing of the resource.
      *
@@ -90,7 +90,7 @@ class CourseController extends Controller
             $course->image=$request->input('image');
             return response()->json([
                 'status' => __('response.status'),
-                'message' => 'courses '.__('response.message.create'),
+                'message' => 'course '.__('response.message.create'),
                 'course' =>$course
                 ]);
         }
@@ -116,7 +116,7 @@ class CourseController extends Controller
 
         return response()->json([
             'status' => __('response.status'),
-            'message' => 'courses '.__('response.message.show'),
+            'message' => 'course '.__('response.message.show'),
             'Course' =>$course
             ]);
     }
@@ -139,15 +139,15 @@ class CourseController extends Controller
         {
             $course->name=$request->input('name');
         }
-        elseif ($request->has(['categoty_id']))
+        if ($request->has(['category_id']))
         {
-            $course->categoty_id=$request->input('categoty_id');
+            $course->category_id=$request->input('category_id');
         }
-        elseif ($request->has(['slug']))
+        if ($request->has(['slug']))
         {
             $course->slug=$request->input('slug');
         }
-        elseif ($request->has(['description']))
+        if ($request->has(['description']))
         {
             $course->description=$request->input('description');
         }

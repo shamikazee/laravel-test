@@ -24,8 +24,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        /*Category::retrieved(function($topic){
-            dd($topic);
-        });*/
+        Category::retrieved(function(){
+            dd('indexed');
+        });
     }
 }
