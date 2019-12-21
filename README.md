@@ -51,13 +51,13 @@ This is a recruitment test in a web development company "DEVINWEB" for a backend
  
  To the next section :
  
-   - The categoriesr responses are multi-language in Category and Course Controllers you will find a variable `public $local='en';` you can change from `'en'` to `'fr'` to get responses in french.
+   - The categories responses are multi-language in Category and Course Controllers you will find a variable `public $local='en';` you can change from `'en'` to `'fr'` to get the responses in french.
    
-   - Observers : in the `App\Providers\AppServiceProvider` exactly `boot` function there few commented lines try to uncomment them it an observer for indexing categories so when the indexing endpoint is called a `dd('indexed')` is shown.
+   - Observers : in the `App\Providers\AppServiceProvider` exactly the `boot` function there is few commented lines try to uncomment them, it's an observer for indexing categories so when the indexing endpoint is called a `dd('indexed')` is shown.
    
-   -Morph map is done.
+   - Morph map is done.
    
-   -We can test on `GET:'/categories'` to check the Json structure , you can the change the testing structure in `Tests\Feature\CategoryTest.php` . to test it use:
+   - We can test on `GET:'/categories'` to check the Json structure , you can the change the testing structure in `Tests\Feature\CategoryTest.php` . to test it use:
    
     ```
     vendor/bin/phpunit --filter testing_category_indexed_format
