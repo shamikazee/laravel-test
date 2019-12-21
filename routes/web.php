@@ -15,6 +15,22 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::resource('category', 'CategoryController');
-Route::resource('course', 'CourseController');
+//category routes
+
+Route::get('categories','CategoryController@index');
+Route::post('categories','CategoryController@create');
+Route::get('categories/{slug}','CategoryController@show');
+Route::put('categories/{slug}','CategoryController@update');
+Route::delete('categories/{slug}','CategoryController@delete');
+
+//course routes
+
+Route::get('courses','CourseController@index');
+Route::post('courses','CourseController@create');
+Route::get('courses/{slug}','CourseController@show');
+Route::put('courses/{slug}','CourseController@update');
+Route::delete('courses/{slug}','CourseController@delete');
+
+//upload image
+
 Route::post('upload','ImageController@create');

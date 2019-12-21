@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 use App\Category;
 use Illuminate\Http\Request;
 use App\Http\Resources\Category as CategoryResource;
-
+use App;
 
 class CategoryController extends Controller
 {
+    public $local='fr';
+
     /**
      * Display a listing of the resource.
      *
@@ -15,6 +17,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
+        App::setLocale($this->local);
         $category=Category::paginate(10);
         foreach ($category as $c)
                 {
@@ -24,8 +27,8 @@ class CategoryController extends Controller
                     }
                 }
         return response()->json([
-            'status' => 'success',
-            'message' => 'Categories indexed successfully!',
+            'status' => __('response.status'),
+            'message' => 'Categories '.__('response.message.index'),
             'categories' =>$category
             ]);
         
@@ -38,6 +41,7 @@ class CategoryController extends Controller
      */
     public function create(Request $request)
     {
+        App::setLocale($this->local);
         $category=new Category;
         $name='';
         $slug='';
@@ -74,8 +78,8 @@ class CategoryController extends Controller
         if($category->save())
         {
             return response()->json([
-                'status' => 'success',
-                'message' => 'Category created successfully!',
+                'status' => __('response.status'),
+                'message' => 'Categories '.__('response.message.create'),
                 'categorie' =>$category
                 ]);
         }
@@ -90,10 +94,11 @@ class CategoryController extends Controller
      */
     public function show($slug)
     {
+        App::setLocale($this->local);
         $category=Category::where('slug',$slug)->first();
         return response()->json([
-            'status' => 'success',
-            'message' => 'Category retrieved successfully!',
+            'status' => __('response.status'),
+            'message' => 'Categories '.__('response.message.show'),
             'category' =>$category
             ]);
     }
@@ -109,6 +114,7 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $slug)
     {
+        App::setLocale($this->local);
         $category=Category::where('slug',$slug)->first();
         if($request->has(['name']))
         {
@@ -121,8 +127,8 @@ class CategoryController extends Controller
         if($category->save())
         {
             return response()->json([
-                'status' => 'success',
-                'message' => 'Category updated successfully!',
+                'status' => __('response.status'),
+                'message' => 'Categories '.__('response.message.update'),
                 'category' =>$category
                 ]);
         }
@@ -136,6 +142,7 @@ class CategoryController extends Controller
      */
     public function destroy($slug)
     {
+        App::setLocale($this->local);
         $category=Category::where('slug',$slug)->first();
         $empty=true;
         if($category->image)
@@ -150,11 +157,9 @@ class CategoryController extends Controller
                 $image->delete();
             }
             return response()->json([
-                'status' => 'success',
-                'message' => 'Category deleted successfully!'
+                'status' => __('response.status'),
+                'message' => 'Categories '.__('response.message.delete'),
                 ]);
         }
-        
-
     }
 }

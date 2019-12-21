@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Course;
+use App;
+
 class CourseController extends Controller
 {
+    public $local='fr';
     /**
      * Display a listing of the resource.
      *
@@ -13,6 +16,7 @@ class CourseController extends Controller
      */
     public function index()
     {
+        App::setLocale($this->local);
         $course=Course::paginate(10);
         foreach ($course as $c)
                 {
@@ -28,8 +32,8 @@ class CourseController extends Controller
                 }
 
         return response()->json([
-            'status' => 'success',
-            'message' => 'courses indexed successfully!',
+            'status' => __('response.status'),
+            'message' => 'courses '.__('response.message.index'),
             'courses' =>$course
             ]);
     }
@@ -41,6 +45,7 @@ class CourseController extends Controller
      */
     public function create(Request $request)
     {
+        App::setLocale($this->local);
         $course=new Course;
         $name='';
         $slug='';
@@ -84,8 +89,8 @@ class CourseController extends Controller
         {
             $course->image=$request->input('image');
             return response()->json([
-                'status' => 'success',
-                'message' => 'Course created successfully!',
+                'status' => __('response.status'),
+                'message' => 'courses '.__('response.message.create'),
                 'course' =>$course
                 ]);
         }
@@ -100,11 +105,18 @@ class CourseController extends Controller
      */
     public function show($slug)
     {
+        App::setLocale($this->local);
         $course=Course::where('slug',$slug)->first();
         $course->category;
+        (array)$course;
+        $course->image;
+        $filename=$course->image['file_name'];
+        unset($course['image']); 
+        $course['image']='http://localhost:8000/storage/'.$filename;
+
         return response()->json([
-            'status' => 'success',
-            'message' => 'Course retrieved successfully!',
+            'status' => __('response.status'),
+            'message' => 'courses '.__('response.message.show'),
             'Course' =>$course
             ]);
     }
@@ -120,7 +132,8 @@ class CourseController extends Controller
      */
     public function update(Request $request, $slug)
     {
-        
+        App::setLocale($this->local);
+
         $course=Course::where('slug',$slug)->first();
         if($request->has(['name']))
         {
@@ -146,8 +159,8 @@ class CourseController extends Controller
             }
             $course->category;
             return response()->json([
-                'status' => 'success',
-                'message' => 'Course updated successfully!',
+                'status' => __('response.status'),
+                'message' => 'courses '.__('response.message.update'),
                 'Course' =>$course
                 ]);
         }
@@ -162,6 +175,8 @@ class CourseController extends Controller
      */
     public function destroy($slug)
     {
+        App::setLocale($this->local);
+
         $course=Course::where('slug',$slug)->first();
         $empty=true;
         if($course->image)
@@ -176,8 +191,8 @@ class CourseController extends Controller
                 $image->delete();
             }
             return response()->json([
-                'status' => 'success',
-                'message' => 'Course deleted successfully!'
+                'status' => __('response.status'),
+                'message' => 'courses '.__('response.message.delete')
                 ]);
         }
     }
