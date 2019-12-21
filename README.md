@@ -59,8 +59,8 @@ This is a recruitment test in a web development company "DEVINWEB" for a backend
    
    - We can test on `GET:'/categories'` to check the Json structure , you can the change the testing structure in `Tests\Feature\CategoryTest.php` . to test it use:
    
-    ```
-    vendor/bin/phpunit --filter testing_category_indexed_format
-    ```
+  ```
+  vendor/bin/phpunit --filter testing_category_indexed_format
+  ```
    
    Thank you.
