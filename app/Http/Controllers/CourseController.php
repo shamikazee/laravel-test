@@ -160,14 +160,25 @@ class CourseController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($slug)
     {
-        $course=Course::find($id);
-        $image = $course->image;
+        $course=Course::where('slug',$slug)->first();
+        $empty=true;
+        if($course->image)
+        {
+            $image = $course->image;
+            $empty=false;
+        }
         if($course->delete())
         {
-            $image->delete();
-            return 'Category deleted';
+            if(!$empty)
+            {
+                $image->delete();
+            }
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Course deleted successfully!'
+                ]);
         }
     }
 }

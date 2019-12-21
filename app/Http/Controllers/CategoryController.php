@@ -134,14 +134,25 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($slug)
     {
-        $category=Category::find($id);
-        $image = $category->image;
+        $category=Category::where('slug',$slug)->first();
+        $empty=true;
+        if($category->image)
+        {
+            $image = $category->image;
+            $empty=false;
+        }
         if($category->delete())
         {
-            $image->delete();
-            return 'Category deleted';
+            if(!$empty)
+            {
+                $image->delete();
+            }
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Category deleted successfully!'
+                ]);
         }
         
 
