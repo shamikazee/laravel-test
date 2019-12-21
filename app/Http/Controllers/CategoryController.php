@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Category;
 use Illuminate\Http\Request;
+use App\Http\Resources\Category as CategoryResource;
 
 
 class CategoryController extends Controller
@@ -37,13 +38,55 @@ class CategoryController extends Controller
      */
     public function create(Request $request)
     {
+        
         $category=new Category;
-        $category->name=$request->input('name');
-        $category->slug=$request->input('slug');
+        $name='';
+        $slug='';
+
+        if (!$request->filled('name')) {
+            $request->flashOnly('slug');
+                return response()->json([
+                    'status' => 'The given data was invalid.',
+                    'errors' => [
+                        'name' =>[
+                            "The name field is required."
+                        ],
+                        'slug' => [
+                            "The slug has already been taken."
+                        ]
+                    ]
+                        
+                ]);
+            }
+        elseif($request->filled(['name','slug']))
+        {
+            $slug=$request->input('slug');
+            $name=$request->input('name');   
+        }
+        elseif (!$request->has('slug') && $request->filled('name')) {
+            $name=$request->input('name');
+            if($request->old('slug')){
+                $slug=$request->old('slug');
+            }
+            else{
+                $slug=$newout=str_replace(" ", "-", $name);
+            }
+            
+        }
+        $category->name=$name;
+        $category->slug=$slug;
         if($category->save())
         {
-            return 'Category Created';
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Category created successfully!',
+                'categorie' =>$category
+                ]);
         }
+
+        
+            
+        
     }
 
 

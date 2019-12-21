@@ -21,7 +21,6 @@ class CourseController extends Controller
                         $c->image['url']='http://localhost:8000/storage/'.$c->image['file_name'];
                     }
                     $c->category;
-                    $c->category->image;
                     if((array)$c->category->image)
                     {
                         $c->category->image['url']='http://localhost:8000/storage/'.$c->category->image['file_name'];
@@ -43,14 +42,55 @@ class CourseController extends Controller
     public function create(Request $request)
     {
         $course=new Course;
-        $course->categoty_id=$request->input('categoty_id');
-        $course->name=$request->input('name');
-        $course->slug=$request->input('slug');
+        $name='';
+        $slug='';
+
+        if (!$request->filled('name')) {
+            $request->flashOnly('slug');
+                return response()->json([
+                    'status' => 'The given data was invalid.',
+                    'errors' => [
+                        'name' =>[
+                            "The name field is required."
+                        ],
+                        'slug' => [
+                            "The slug has already been taken."
+                        ]
+                    ]
+                        
+                ]);
+            }
+        elseif($request->filled(['name','slug']))
+        {
+            $slug=$request->input('slug');
+            $name=$request->input('name');   
+        }
+        elseif (!$request->has('slug') && $request->filled('name')) {
+            $name=$request->input('name');
+            if($request->old('slug')){
+                $slug=$request->old('slug');
+            }
+            else{
+                $slug=$newout=str_replace(" ", "-", $name);
+            }
+            
+        }
+        $course->category_id=$request->input('category_id');
+        $course->name=$name;
         $course->description=$request->input('description');
+        $course->slug=$slug;
+
         if($course->save())
         {
-            return 'course Created';
+            $course->image=$request->input('image');
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Course created successfully!',
+                'course' =>$course
+                ]);
         }
+
+        
     }
     /**
      * Display the specified resource.
