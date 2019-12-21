@@ -8,7 +8,7 @@ use App;
 
 class CategoryController extends Controller
 {
-    public $local='fr';
+    public $local='en';
 
     /**
      * Display a listing of the resource.
