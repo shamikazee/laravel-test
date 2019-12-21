@@ -21,12 +21,9 @@ class CourseController extends Controller
                         $c->image['url']='http://localhost:8000/storage/'.$c->image['file_name'];
                     }
                     $c->category;
-                     
                     $c->category->image;
-                    
                     if((array)$c->category->image)
                     {
-                       
                         $c->category->image['url']='http://localhost:8000/storage/'.$c->category->image['file_name'];
                     }
                 }
@@ -64,7 +61,7 @@ class CourseController extends Controller
     public function show($slug)
     {
         $course=Course::where('slug',$slug)->first();
-
+        $course->category;
         return response()->json([
             'status' => 'success',
             'message' => 'Course retrieved successfully!',
