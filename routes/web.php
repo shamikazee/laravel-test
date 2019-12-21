@@ -17,4 +17,4 @@ Route::get('/', function () {
 
 Route::resource('category', 'CategoryController');
 Route::resource('course', 'CourseController');
-Route::post('image','ImageController@create');
+Route::post('upload','ImageController@create');
