@@ -5,6 +5,9 @@ use App\Image;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Config;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
+
 
 
 class ImageController extends Controller
@@ -21,12 +24,12 @@ class ImageController extends Controller
         ]);
         $image=new Image();
         $file =$request->file('image');
-        $destinationPath = public_path(). '/images/';
-        $filename = $file->getClientOriginalName();
-        $file->move($destinationPath, $filename);
+        $random = Str::random(20);
+        $filename = 'images/'.$random.'.'.$file->getClientOriginalExtension();
+        Storage::disk('public')->put($filename, file_get_contents($file), 'public');
         $image->file_name=$filename;
-        $image->imageable_type="Category";
-        $image->imageable_id=35;
+        $image->imageable_type="categories";
+        $image->imageable_id=38;
         if($image->save())
         {
             return 'image Created';

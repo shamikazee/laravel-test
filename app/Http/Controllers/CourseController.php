@@ -14,7 +14,18 @@ class CourseController extends Controller
     public function index()
     {
         $course=Course::paginate(10);
-        return $course;
+        foreach ($course as $c)
+                {
+                    if((array)$c->image)
+                    {
+                        $c->image['url']='http://localhost:8000/storage/'.$c->image['file_name'];
+                    }
+                }
+        return response()->json([
+            'status' => 'success',
+            'message' => 'courses indexed successfully!',
+            'categories' =>$course
+            ]);
     }
 
     /**
