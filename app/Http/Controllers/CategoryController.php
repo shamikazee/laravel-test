@@ -38,11 +38,9 @@ class CategoryController extends Controller
      */
     public function create(Request $request)
     {
-        
         $category=new Category;
         $name='';
         $slug='';
-
         if (!$request->filled('name')) {
             $request->flashOnly('slug');
                 return response()->json([
@@ -54,8 +52,7 @@ class CategoryController extends Controller
                         'slug' => [
                             "The slug has already been taken."
                         ]
-                    ]
-                        
+                    ]         
                 ]);
             }
         elseif($request->filled(['name','slug']))
@@ -70,8 +67,7 @@ class CategoryController extends Controller
             }
             else{
                 $slug=$newout=str_replace(" ", "-", $name);
-            }
-            
+            }   
         }
         $category->name=$name;
         $category->slug=$slug;
@@ -83,10 +79,6 @@ class CategoryController extends Controller
                 'categorie' =>$category
                 ]);
         }
-
-        
-            
-        
     }
 
 
@@ -115,14 +107,24 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $slug)
     {
-        $category=Category::find($id);
-        $category->name=$request->input('name');
-        $category->slug=$request->input('slug');
+        $category=Category::where('slug',$slug)->first();
+        if($request->has(['name']))
+        {
+            $category->name=$request->input('name');
+        }
+        elseif ($request->has(['slug']))
+        {
+            $category->slug=$request->input('slug');
+        }
         if($category->save())
         {
-            return 'Category updated';
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Category updated successfully!',
+                'category' =>$category
+                ]);
         }
     }
 

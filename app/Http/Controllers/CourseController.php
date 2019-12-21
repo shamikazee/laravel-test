@@ -118,16 +118,38 @@ class CourseController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $slug)
     {
-        $course=Course::find($id);
-        $course->categoty_id=$request->input('categoty_id');
-        $course->name=$request->input('name');
-        $course->slug=$request->input('slug');
-        $course->description=$request->input('description');
+        
+        $course=Course::where('slug',$slug)->first();
+        if($request->has(['name']))
+        {
+            $course->name=$request->input('name');
+        }
+        elseif ($request->has(['categoty_id']))
+        {
+            $course->categoty_id=$request->input('categoty_id');
+        }
+        elseif ($request->has(['slug']))
+        {
+            $course->slug=$request->input('slug');
+        }
+        elseif ($request->has(['description']))
+        {
+            $course->description=$request->input('description');
+        }
         if($course->save())
         {
-            return 'course updated';
+            if($request->has(['image']))
+            {
+                $course->image=$request->input('image');
+            }
+            $course->category;
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Course updated successfully!',
+                'Course' =>$course
+                ]);
         }
 
     }
