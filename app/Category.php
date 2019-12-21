@@ -10,4 +10,8 @@ class Category extends Model
     {
         return $this->morphOne('App\Image', 'imageable');
     }
+    public function course()
+    {
+        return $this->hasMany('App\Course');
+    }
 }

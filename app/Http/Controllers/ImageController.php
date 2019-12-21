@@ -28,8 +28,8 @@ class ImageController extends Controller
         $filename = 'images/'.$random.'.'.$file->getClientOriginalExtension();
         Storage::disk('public')->put($filename, file_get_contents($file), 'public');
         $image->file_name=$filename;
-        $image->imageable_type="categories";
-        $image->imageable_id=38;
+        $image->imageable_type=$request->input('type');
+        $image->imageable_id=$request->input('id');
         if($image->save())
         {
             return 'image Created';

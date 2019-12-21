@@ -10,4 +10,8 @@ class Course extends Model
     {
         return $this->morphOne('App\Image', 'imageable');
     }
+    public function category()
+    {
+        return $this->belongsTo('App\Category');
+    }
 }

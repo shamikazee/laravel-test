@@ -20,11 +20,21 @@ class CourseController extends Controller
                     {
                         $c->image['url']='http://localhost:8000/storage/'.$c->image['file_name'];
                     }
+                    $c->category;
+                     
+                    $c->category->image;
+                    
+                    if((array)$c->category->image)
+                    {
+                       
+                        $c->category->image['url']='http://localhost:8000/storage/'.$c->category->image['file_name'];
+                    }
                 }
+
         return response()->json([
             'status' => 'success',
             'message' => 'courses indexed successfully!',
-            'categories' =>$course
+            'courses' =>$course
             ]);
     }
 
@@ -51,10 +61,15 @@ class CourseController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($slug)
     {
-        $course=Course::find($id);
-        return $course;
+        $course=Course::where('slug',$slug)->first();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Course retrieved successfully!',
+            'Course' =>$course
+            ]);
     }
 
    
